@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GHANSHYAM OLI | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --secondary: #ec4899;
+            --bg: #ffffff;
+            --surface: #fafafa;
+            --text-main: #1f2937;
+            --text-dim: #6b7280;
+            --border: rgba(0, 0, 0, 0.05);
+            --shadow: 0 15px 40px rgba(139, 92, 246, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Ambient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #fdf2f8 0%, #eef2ff 100%);
+            z-index: -1;
+        }
+
+        .glow {
+            position: fixed;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            z-index: -1;
+            animation: float 15s infinite alternate;
+        }
+        .glow-1 { background: #fce7f3; top: -100px; left: -100px; }
+        .glow-2 { background: #e0e7ff; bottom: -100px; right: -100px; animation-delay: -7s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            height: 94vh;
+            max-height: 900px;
+            background: white;
+            border-radius: 48px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid white;
+        }
+
+        @media (max-width: 500px) {
+            .app-container { height: 100vh; max-height: none; border-radius: 0; border: none; }
+        }
+
+        .content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            scrollbar-width: none;
+        }
+        .content-scroll::-webkit-scrollbar { display: none; }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 20px 0 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .avatar-container:hover { transform: scale(1.04); }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .profile-name {
+            font-size: 30px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #111827 0%, #4b5563 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .profile-tag {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+            min-height: 22px;
+        }
+
+        .typewriter-cursor {
+            border-right: 2px solid var(--primary);
+            animation: blink 0.75s step-end infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        /* Nav Tabs */
+        .tabs-nav {
+            display: flex;
+            background: rgba(0, 0, 0, 0.03);
+            padding: 5px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* Social Grid */
+        .social-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .social-card {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: cardFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes cardFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .social-card:nth-child(1) { animation-delay: 0.1s; }
+        .social-card:nth-child(2) { animation-delay: 0.2s; }
+        .social-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .social-card:hover {
+            transform: translateX(6px) translateY(-2px);
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.1);
+        }
+
+        .icon-wrap {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 14px;
+            margin-right: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .icon-wrap svg { width: 22px; height: 22px; }
+
+        .info-wrap h4 { font-size: 16px; font-weight: 700; color: #1f2937; }
+        .info-wrap p { font-size: 13px; color: var(--text-dim); }
+
+        .arrow {
+            margin-left: auto;
+            color: var(--text-dim);
+            transition: 0.3s;
+        }
+        .social-card:hover .arrow { color: var(--primary); transform: translateX(4px); }
+
+        /* Views */
+        .view-pane {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            background: white;
+            z-index: 5;
+        }
+        .view-pane.active { display: flex; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .back-bar {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text-main);
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bio-container {
+            padding: 10px 0 40px;
+        }
+
+        .bio-text {
+            line-height: 1.8;
+            font-size: 16px;
+            color: #374151;
+            padding: 0 25px;
+        }
+
+        .bio-text b { color: var(--primary-dark); font-weight: 700; }
+        .bio-text p { margin-bottom: 20px; }
+
+        /* Search Bar */
+        .search-wrap {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-wrap input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            border-radius: 16px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-wrap input:focus { border-color: var(--primary); background: white; }
+        .search-wrap svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-dim); }
+
+    </style>
+</head>
+<body>
+
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="app-container">
+        <!-- Main View -->
+        <div id="home-view" class="view-pane active">
+            <div class="content-scroll">
+                <div class="header">
+                    <div class="avatar-container" onclick="showBio()">
+                        <img src="WhatsApp%20Image%202026-04-21%20at%2011.20.50%20AM.jpeg" class="avatar-img" onerror="this.src='https://ui-avatars.com/api/?name=Ghanshyam+Oli&background=8b5cf6&color=fff'">
+                    </div>
+                    <h1 class="profile-name">GHANSHYAM OLI</h1>
+                    <p class="profile-tag" id="type-text"></p>
+                </div>
+
+                <div class="tabs-nav">
+                    <button class="tab-btn active" onclick="setTab('social', event)">Social Media</button>
+                    <button class="tab-btn" onclick="setTab('more', event)">About</button>
+                </div>
+
+                <div id="social-sec">
+                    <div class="search-wrap">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" placeholder="Search platforms..." onkeyup="filter(this)">
+                    </div>
+
+                    <div class="social-list">
+                        <a href="https://www.facebook.com/kiranoffical2" target="_blank" class="social-card">
+                            <div class="icon-wrap">
+                                <svg viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            </div>
+                            <div class="info-wrap">
+                                <h4>Facebook</h4>
+                                <p>Connect with me</p>
+                            </div>
+                            <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+
+                        <a href="https://www.tiktok.com/@ghanshyam.oli66" target="_blank" class="social-card">
+                            <div class="icon-wrap">
+                                <svg viewBox="0 0 448 512"><path fill="#000" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
+                            </div>
+                            <div class="info-wrap">
+                                <h4>TikTok</h4>
+                                <p>Watch my content</p>
+                            </div>
+                            <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+
+                        <a href="mailto:ghanshyamoli922@gmail.com" class="social-card">
+                            <div class="icon-wrap">
+                                <svg viewBox="0 0 24 24"><path fill="#EA4335" d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.573l8.073-6.08c1.618-1.214 3.927-.059 3.927 1.964z"/></svg>
+                            </div>
+                            <div class="info-wrap">
+                                <h4>Gmail</h4>
+                                <p>Send an email</p>
+                            </div>
+                            <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="more-sec" style="display: none; padding: 20px 0;">
+                    <div class="social-card" onclick="showBio()" style="cursor: pointer;">
+                        <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                        <div class="info-wrap"><h4>About Me</h4><p>Read my full story</p></div>
+                        <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bio View -->
+        <div id="bio-view" class="view-pane">
+            <div class="back-bar" onclick="hideBio()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Go Back
+            </div>
+            <div class="content-scroll">
+                <div class="header">
+                    <div class="avatar-container" style="width: 100px; height: 100px;">
+                        <img src="WhatsApp%20Image%202026-04-21%20at%2011.20.50%20AM.jpeg" class="avatar-img" onerror="this.src='https://ui-avatars.com/api/?name=Ghanshyam+Oli&background=8b5cf6&color=fff'">
+                    </div>
+                    <h2 class="profile-name">GHANSHYAM OLI</h2>
+                    <p style="color: var(--text-dim); font-size: 14px;">Kiran Chhetri</p>
+                </div>
+                <div class="bio-container">
+                    <div class="bio-text">
+                        <p>My name is <b>GHANSHYAM OLI</b>, and I am also known as <b>Kiran Chhetri</b>.</p>
+                        <p>I am currently <b><span id="user-age"></span> years old</b> and studying in Class 11.</p>
+                        <p>I am passionate about learning new things and have a strong interest in technology. I enjoy working on websites, applications, and exploring new ideas in the digital world.</p>
+                        <p>My goal is to build valuable skills and create better opportunities for my future. I am always motivated to grow, learn, and achieve success through my hard work and dedication.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const words = ["Digital Creator", "Tech Enthusiast", "Class 11 Student", "Kiran Chhetri"];
+        let wIdx = 0, cIdx = 0, isDel = false;
+
+        function type() {
+            const current = words[wIdx];
+            const el = document.getElementById("type-text");
+            if(!el) return;
+            el.innerText = isDel ? current.substring(0, cIdx - 1) : current.substring(0, cIdx + 1);
+            cIdx = isDel ? cIdx - 1 : cIdx + 1;
+            el.innerHTML += '<span class="typewriter-cursor"></span>';
+
+            let speed = isDel ? 70 : 150;
+            if (!isDel && cIdx === current.length) { speed = 2000; isDel = true; }
+            else if (isDel && cIdx === 0) { isDel = false; wIdx = (wIdx + 1) % words.length; speed = 500; }
+            setTimeout(type, speed);
+        }
+
+        function setTab(id, e) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            document.getElementById('social-sec').style.display = id === 'social' ? 'block' : 'none';
+            document.getElementById('more-sec').style.display = id === 'more' ? 'block' : 'none';
+        }
+
+        function showBio() {
+            document.getElementById('home-view').classList.remove('active');
+            document.getElementById('bio-view').classList.add('active');
+        }
+
+        function hideBio() {
+            document.getElementById('bio-view').classList.remove('active');
+            document.getElementById('home-view').classList.add('active');
+        }
+
+        function filter(e) {
+            let q = e.value.toLowerCase();
+            document.querySelectorAll('.social-card').forEach(c => {
+                let t = c.querySelector('h4') ? c.querySelector('h4').innerText.toLowerCase() : '';
+                c.style.display = t.includes(q) ? 'flex' : 'none';
+            });
+        }
+
+        function updateAge() {
+            const birthDate = new Date("2007-02-14");
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            const ageEl = document.getElementById('user-age');
+            if(ageEl) ageEl.innerText = age;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            type();
+            updateAge();
+        });
+    </script>
+</body>
+</html>
